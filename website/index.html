@@ -7,12 +7,11 @@
     <meta name="description" content="Altitude is a CanSat team from Haberdashers' Boys' School competing in the 2026/2027 season.">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <link rel="canonical" href="https://altitude.linkpc.net/website/index.html">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=responsive-panels-20260517">
+    <link rel="stylesheet" href="styles.css?v=20260921">
+    <link rel="stylesheet" href="refinements.css?v=20260921">
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
 
     <header class="site-header">
@@ -60,11 +59,13 @@
       </a>
     </nav>
 
-    <main class="site-main">
+    <main class="site-main" id="main-content" tabindex="-1">
       <section class="hero" id="home">
         <div class="hero__copy" data-reveal>
+          <p class="eyebrow">HABS CANSAT · 2026/2027</p>
           <h1>Altitude</h1>
-          <p class="hero__lead">A CanSat team from Haberdashers' Boys' School in Hertfordshire, building for the 2026/2027 season with code, CAD, careful fabrication, and a lot of testing.</p>
+          <p class="hero__lead">Measure the atmosphere. Understand the descent. A student-built CanSat exploring whether four airbrakes can make a landing more accurate.</p>
+          <p class="status-note">In development · Python flight software · ESP32-S3</p>
           <div class="hero__actions">
             <a class="button button--accent button--icon" href="team.html">Meet the team</a>
             <a class="button button--icon" href="cansat.html">See the CanSat</a>
@@ -83,8 +84,8 @@
               <span>Haberdashers' Boys' School, Hertfordshire</span>
             </div>
             <div class="meta-row">
-              <strong>Core</strong>
-              <span>[unknown]</span>
+              <strong>Mission</strong>
+              <span>Atmospheric measurements and guided-descent experiments</span>
             </div>
           </div>
         </aside>
@@ -108,7 +109,7 @@
             </article>
             <article class="stat-panel glass-panel" data-reveal>
               <strong>1</strong>
-              <span>Integrated CanSat system built around a compact Arduino-controlled payload.</span>
+              <span>Integrated mission: atmospheric data, a controlled-descent experiment and passive recovery.</span>
             </article>
           </div>
         </div>
@@ -130,7 +131,7 @@
           <article class="link-panel glass-panel" data-reveal>
             <div>
               <h3>CanSat</h3>
-              <p>The Arduino Uno R3 controller, Bambu Lab X2D fabrication workflow, AMS hardware, and ASA Aero, TPU 90A, and PETG CF filaments used to build the payload.</p>
+              <p>Python flight control, two ESP32-S3 boards, four airbrakes and the fabrication work behind the payload.</p>
             </div>
             <a class="link-panel__arrow" href="cansat.html" aria-label="Open the CanSat page"><span class="sr-only">Open the CanSat page</span></a>
           </article>
@@ -178,6 +179,6 @@
       </defs>
     </svg>
 
-    <script src="app.js?v=nav-label-fix-20260517"></script>
+    <script src="app.js?v=20260921"></script>
   </body>
 </html>

@@ -13,7 +13,7 @@ Altitude is a student-led CanSat team from Haberdashers' Boys' School in Hertfor
 
 ## The CanSat
 
-The Altitude CanSat is designed around an Arduino Uno R3 microcontroller, giving the payload a clear and testable control layer for mission code, timing, sensor readings, and data handling.
+The Altitude CanSat uses Python flight software with MicroPython on the selected ESP32-S3 platform. Two physical controllers separate main guidance from the guardian that owns the servo outputs. The DevKitC-1 N8R8 is the recommended bench model (8 MB flash and 8 MB PSRAM); final flight packaging and power remain to be checked.
 
 The fabrication workflow uses the Bambu Lab X2D printer with Automatic Material System hardware. The printer is used to manufacture the CanSat structure, internal fixtures, test pieces, and CAD iteration parts. The AMS 2 Pro and two AMS HT filament dryers support the fabrication process by managing engineering filaments and keeping materials dry for consistent print quality.
 
@@ -24,7 +24,7 @@ Current materials include:
 - PETG CF
 - PLA HS
 
-The mission core is still being decided, so the website lists it as `[unknown]` for now.
+The primary mission records and transmits atmospheric temperature and pressure. The secondary mission investigates GPS-guided descent with rotation-aware airbrake control. Hardware has not yet been purchased; host software tests do not establish flight readiness.
 
 ## Website
 

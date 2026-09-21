@@ -7,12 +7,11 @@
     <meta name="description" content="Explore the devices and fabrication workflow behind Altitude's CanSat.">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <link rel="canonical" href="https://altitude.linkpc.net/website/cansat.html">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=responsive-panels-20260517">
+    <link rel="stylesheet" href="styles.css?v=20260921">
+    <link rel="stylesheet" href="refinements.css?v=20260921">
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"></div>
 
     <header class="site-header">
@@ -60,17 +59,23 @@
       </a>
     </nav>
 
-    <main class="site-main">
+    <main class="site-main" id="main-content" tabindex="-1">
       <section class="hero hero--compact" id="cansat-overview">
         <div class="hero__copy" data-reveal>
           <h1 class="page-title">CanSat</h1>
-          <p class="hero__lead">Altitude's satellite is built around an Arduino Uno R3 controller, supporting payload components, and a repeatable 3D-printing workflow using Bambu Lab hardware.</p>
+          <p class="eyebrow">THE PAYLOAD · DESIGN IN DEVELOPMENT</p>
+          <p class="hero__lead">Python controls the mission. An independent safety controller supervises the airbrakes. A passive parachute brings the payload home.</p>
+          <div class="hero__actions"><a class="button button--accent" href="#flight-software">Explore flight control</a><a class="button" href="#components">See the hardware</a></div>
         </div>
         <aside class="hero-card glass-panel" data-reveal>
           <div class="hero-card__meta">
             <div class="meta-row">
               <strong>Controller</strong>
-              <span>Arduino Uno R3 Microcontroller</span>
+              <span>Two ESP32-S3 boards · selected platform</span>
+            </div>
+            <div class="meta-row">
+              <strong>Software</strong>
+              <span>Python with MicroPython</span>
             </div>
             <div class="meta-row">
               <strong>Fabrication</strong>
@@ -84,19 +89,34 @@
         </aside>
       </section>
 
-      <section class="section section--tight" id="components">
+      <section class="section section--tight" id="flight-software" aria-labelledby="software-title">
+        <div class="section__head"><p class="eyebrow">01 / MEASURE, GUIDE, RECOVER</p><h2 id="software-title">A mission with a fallback.</h2><p>Temperature and pressure come first. Steering is an experiment that must earn its place through measured tests.</p></div>
+        <div class="mission-grid">
+          <article class="mission-stage"><span class="stage-number">01</span><h3>Measure</h3><p>Record pressure, temperature, motion and position. Send the primary atmospheric measurements to the ground at least once per second.</p></article>
+          <article class="mission-stage"><span class="stage-number">02</span><h3>Guide</h3><p>Combine GPS target error with measured orientation and rotation. Adjust the four airbrakes in the rotating body frame during qualified descent.</p></article>
+          <article class="mission-stage"><span class="stage-number">03</span><h3>Recover</h3><p>A separate ESP32-S3 supervises commands and owns the servo outputs. The passive parachute provides recovery even without active guidance.</p></article>
+        </div>
+        <div class="control-notes">
+          <details><summary>How does steering work while the CanSat rotates?</summary><p>The controller transforms the direction towards the GPS target into the CanSat's current body orientation, allowing for rotation during servo delay. It then allocates panel movement using measured aerodynamic response. GPS travel direction is not used as the heading.</p></details>
+          <details><summary>What happens if an airbrake jams?</summary><p>If its physical angle is known, the opposite panel moves towards the same angle and the perpendicular pair remains available. Missing feedback, multiple failures or poor control response stop precision guidance. Working panels move to a tested safe setting; maximum deployment stays disabled until verified.</p></details>
+          <details><summary>What if the main flight program stops?</summary><p>The guardian runs on a separate board. It checks fresh commands, target consistency and expected versus measured movement. A safety trip latches guidance off. Recovery and primary data take priority over landing accuracy.</p></details>
+          <details><summary>What has been tested so far?</summary><p>The Python control core has passed 22 host test methods, including rotation, actuator faults, corrupt packets and a simulated main-task freeze. Sensor drivers, board timing, aerodynamic calibration and physical drop tests remain outstanding. The hardware has not yet been purchased.</p></details>
+        </div>
+      </section>
+
+      <section class="section" id="components">
         <div class="section__head" data-reveal>
           <h2>CanSat Components</h2>
-          <p>The payload starts with embedded control, sensing, communications, and compact mechanism parts before the structure is manufactured around them.</p>
+          <p>The ESP32-S3 is our selected controller family. Other parts are candidates or prototype equipment until their integration tests are complete.</p>
         </div>
 
         <div class="device-grid">
           <article class="device-card glass-panel" data-reveal>
-            <div class="device-card__image">
-              <img src="../assets/images/Arduino Uno R3.png" alt="Arduino Uno R3 Microcontroller">
-            </div>
-            <h3>Arduino Uno R3</h3>
-            <p>The Uno R3 is the CanSat's microcontroller platform. It is used to run mission code, coordinate sensor readings, manage timing, and provide a clear, testable control layer for the payload.</p>
+            <p class="component-status">SELECTED PLATFORM</p>
+            <div class="processor-spec"><span>ESP32</span><strong>S3</strong><small>MicroPython · two physical boards</small></div>
+            <h3>ESP32-S3 controllers</h3>
+            <p>One board runs guidance; the other supervises it and controls the servos. The DevKitC-1 N8R8 is our recommended bench model, with 8 MB flash and 8 MB PSRAM. The flight assembly still needs fit and power checks.</p>
+            <a class="text-link" href="https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-devkitc-1/user_guide_v1.0.html" target="_blank" rel="noopener noreferrer">Board specifications ↗</a>
           </article>
 
           <article class="device-card glass-panel" data-reveal>
@@ -111,24 +131,24 @@
             <div class="device-card__image">
               <img src="../assets/images/ADXL335 Triple Axis Accelerometer.png" alt="ADXL335 Triple Axis Accelerometer">
             </div>
-            <h3>ADXL335 Accelerometer</h3>
-            <p>The ADXL335 tracks acceleration across three axes, helping the team understand motion, vibration, and handling loads on the payload.</p>
+            <h3>Motion and heading</h3>
+            <p>The pictured ADXL335 is an early acceleration-sensor option. Guidance needs a heading-capable IMU and gyroscope; the BNO085 is a candidate. An accelerometer alone cannot provide the required orientation.</p>
           </article>
 
           <article class="device-card glass-panel" data-reveal>
             <div class="device-card__image">
               <img src="../assets/images/FRM95W LoRa Module.png" alt="FRM95W LoRa Module">
             </div>
-            <h3>FRM95W LoRa Module</h3>
-            <p>The LoRa radio module is planned for long-range communication tests, supporting telemetry links between the CanSat payload and the ground workflow.</p>
+            <h3>LoRa telemetry</h3>
+            <p>An external LoRa link will carry atmospheric measurements and flight status to the ground. The exact radio variant, frequency and event configuration are still to be confirmed.</p>
           </article>
 
           <article class="device-card glass-panel" data-reveal>
             <div class="device-card__image">
               <img src="../assets/images/SG90 Servo Motor.png" alt="SG90 Servo Motor">
             </div>
-            <h3>SG90 Servo Motor</h3>
-            <p>The SG90 servo provides compact actuation for mechanism prototypes and controlled movement tests, such as release or recovery experiments.</p>
+            <h3>Airbrake actuation</h3>
+            <p>The pictured SG90 is an early prototype option; MG90S-class servos are also under consideration. Four servos need measured torque and power margins, with separate hinge feedback to detect actual panel movement.</p>
           </article>
         </div>
       </section>
@@ -209,7 +229,7 @@
           <article class="process-card glass-panel" data-reveal>
             <span>3</span>
             <h3>Integrate</h3>
-            <p>The Arduino platform and payload electronics are fitted, wired, and checked against the physical layout.</p>
+            <p>The ESP32-S3 boards, sensors and actuators are fitted and wired, then the Python software is tested against real measurements and injected faults.</p>
           </article>
           <article class="process-card glass-panel" data-reveal>
             <span>4</span>
@@ -222,7 +242,7 @@
 
     <footer class="footer">
       <span>Altitude CanSat Team</span>
-      <span>Arduino + Bambu Lab build workflow</span>
+      <span>Python flight software · ESP32-S3 platform</span>
       <span><a href="https://github.com/ericxyn/Altitude-HABS-CanSat-2026-2027" target="_blank" rel="noopener noreferrer">Engineering repo</a></span>
     </footer>
 
@@ -236,6 +256,6 @@
       </defs>
     </svg>
 
-    <script src="app.js?v=nav-label-fix-20260517"></script>
+    <script src="app.js?v=20260921"></script>
   </body>
 </html>
