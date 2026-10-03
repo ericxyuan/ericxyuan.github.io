@@ -30,7 +30,7 @@ The primary mission records and transmits atmospheric temperature and pressure. 
 
 The site is a static HTML, CSS, and JavaScript website in the `website/` folder, with shared assets in `assets/`. Root-level HTML files redirect into the website folder so the pages work cleanly on GitHub Pages.
 
-The main engineering repository for flight code, CAD, telemetry work, build notes, and test data is [ericxyn/Altitude-HABS-CanSat-2026-2027](https://github.com/ericxyn/Altitude-HABS-CanSat-2026-2027).
+The main engineering repository for flight code, CAD, telemetry work, build notes, and test data is [ericxyuan/Altitude-HABS-CanSat-2026-2027](https://github.com/ericxyuan/Altitude-HABS-CanSat-2026-2027).
 
 Pages included:
 
@@ -41,6 +41,8 @@ Pages included:
 - About CanSat
 
 ## GitHub Pages, A Records, And HTTPS
+
+The Pages repository is [ericxyuan/ericxyuan.github.io](https://github.com/ericxyuan/ericxyuan.github.io), matching the current GitHub username. The default Pages address is `https://ericxyuan.github.io/`; the public custom domain below remains the main website address.
 
 The custom domain for the site is:
 
