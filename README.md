@@ -13,9 +13,9 @@ Altitude is a student-led CanSat team from Haberdashers' Boys' School in Hertfor
 
 ## The CanSat
 
-The primary mission measures air temperature and pressure during descent and transmits both once every second. The secondary mission records UVA and UVB at different altitudes, using the selected SparkFun Mini AS7331 development sensor. A preliminary pod above the canopy gives the exposed optical face a clear sky view.
+The primary mission measures air temperature and pressure during descent and transmits both once every second. The secondary mission records UVA and UVB at different altitudes, using four selected SparkFun Mini AS7331 boards. Four body-mounted ASA Aero arms at 90-degree intervals point the optical faces outward and 30 degrees upward. The canopy still shades zenith; angular response and final canopy geometry need characterization.
 
-Python with MicroPython on ESP32-S3 remains the development platform. The simplified architecture proposes one main flight controller. The initial custom structure is entirely 3D printed in ASA Aero and TPU85A, with a reusable fabric parachute for passive recovery. Final packaging, wiring, calibration and flight qualification remain to be completed.
+Python with MicroPython on ESP32-S3 remains the development platform. The simplified architecture proposes one main flight controller. The initial custom structure is entirely 3D printed in ASA Aero and TPU85A, with a reusable fabric parachute for passive recovery. The arm study recommends 45 mm free span × 12 mm width × 12 mm thickness with captured roots and positive locks. Its reported stress and movement are analytical estimates; no FEA/CFD run completed because SimScale sign-in failed. Final deployment mechanism, packaging, wiring, calibration and flight qualification remain to be completed.
 
 The Bambu Lab X2D printer, AMS hardware and filament dryers support fabrication and material conditioning. Each material uses the appropriate drying settings and feed path.
 

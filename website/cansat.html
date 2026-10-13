@@ -64,7 +64,7 @@
         <div class="hero__copy" data-reveal>
           <h1 class="page-title">CanSat</h1>
           <p class="eyebrow">THE PAYLOAD · DESIGN IN DEVELOPMENT</p>
-          <p class="hero__lead">Temperature and pressure describe the atmosphere. UVA and UVB add a radiation profile. A small sensor pod looks at the sky from above a passive parachute.</p>
+          <p class="hero__lead">Temperature and pressure describe the atmosphere. UVA and UVB add a radiation profile. Four sensors on the CanSat body look outward and upward during passive parachute descent.</p>
           <div class="hero__actions"><a class="button button--accent" href="#flight-software">Explore the mission</a><a class="button" href="#components">See the hardware</a></div>
         </div>
         <aside class="hero-card glass-panel" data-reveal>
@@ -90,19 +90,21 @@
       </section>
 
       <section class="section section--tight" id="flight-software" aria-labelledby="software-title">
-        <div class="section__head"><p class="eyebrow">01 / MEASURE, SAMPLE, RECOVER</p><h2 id="software-title">An atmospheric profile with UV.</h2><p>Our secondary mission now compares UVA and UVB with altitude. Temperature and pressure remain the compulsory primary measurements.</p></div>
+        <div class="section__head"><p class="eyebrow">01 / MEASURE, SAMPLE, RECOVER</p><h2 id="software-title">Four views of the UV profile.</h2><p>Our secondary mission compares UVA and UVB with altitude using four sensors attached directly to the CanSat body. Temperature and pressure remain the compulsory primary measurements.</p></div>
         <div class="mission-grid">
-          <article class="mission-stage"><span class="stage-number">01</span><h3>Measure</h3><p>Measure air temperature and pressure after release and during descent. Transmit both to the ground once every second and estimate relative altitude from pressure.</p></article>
-          <article class="mission-stage"><span class="stage-number">02</span><h3>Sample UV</h3><p>The selected SparkFun Mini AS7331 separates UV channels. Save UVA and UVB with altitude, acquisition time and measurement settings to build a local radiation profile.</p></article>
-          <article class="mission-stage"><span class="stage-number">03</span><h3>Recover</h3><p>A bright reusable parachute provides passive recovery. The proposed UV pod sits above the canopy, with its active face higher than fabric, cable and mounting parts.</p></article>
+          <article class="mission-stage"><span class="stage-number">01</span><h3>Measure</h3><p>Measure air temperature and pressure after release and during descent. Transmit both once every second and estimate relative altitude from pressure.</p></article>
+          <article class="mission-stage"><span class="stage-number">02</span><h3>Sample four directions</h3><p>Four SparkFun Mini AS7331 boards sit at 90-degree intervals. Their exposed optical faces point outward and 30 degrees upward; separate readings retain the direction and measurement settings.</p></article>
+          <article class="mission-stage"><span class="stage-number">03</span><h3>Recover</h3><p>A bright reusable parachute provides passive recovery. The sensor arms fold inside the launch envelope and need captured roots and positive locks when deployed. No sensor is mounted on the parachute.</p></article>
         </div>
         <div class="control-notes">
-          <details><summary>How will the sensor avoid parachute shading?</summary><p>The preliminary model places the UV pod above the canopy crown. Its upward optical face has no printed roof or ordinary clear-plastic cover. The pod and wiring are packed inside the CanSat before launch; the mounting and unfolding arrangement still need physical verification.</p></details>
-          <details><summary>What can the UV readings tell us?</summary><p>We will plot UVA and UVB against relative altitude, retaining raw counts and quality flags. Clouds, solar angle, pod tilt and saturation may influence the profile. A short flight may show no resolvable change; the readings do not automatically provide a validated UV Index or ozone concentration.</p></details>
-          <details><summary>How does the UV pod connect to the payload?</summary><p>A signal and power cable follows a shroud line with separate strain relief. A protected UV supply and differential cable interface are proposed. The cable carries no parachute load, and primary measurements take priority if the UV branch fails.</p></details>
-          <details><summary>Where can I see the preliminary design?</summary><p>Read the <a href="https://github.com/ericxyuan/altitude-cansat/blob/main/docs/Altitude_PDR.docx">current PDR</a>, open the <a href="https://cad.onshape.com/documents/76123ac2946988d574b71b35/w/4e6885d706dac03531484551/e/0391f996e69f00881814257a">Onshape demonstration model</a>, or view the <a href="https://lucid.app/lucidchart/16d928bb-fa47-4260-83cb-e005f5ee5b93/edit">updated system diagram</a>. The model demonstrates the UV arrangement; it is a preliminary design. The PDR link requires access to the team’s private engineering repository.</p></details>
+          <details><summary>How do the sensors avoid obstruction?</summary><p>The recommended arms extend 45 mm from the body, putting the optical centres 77 mm from its axis. Outward and upward faces provide clear sky sectors when canopy size, separation and tilt stay within the study assumptions. Zenith remains shaded by the canopy. The sensors have broad angular response, so final optics and canopy shadow need calibration; this is not an unobstructed all-sky measurement.</p></details>
+          <details><summary>What arm geometry is recommended?</summary><p>The preliminary study selects a 45 mm free span with a 12 × 12 mm ASA Aero beam, a tapered transition, R5 shoulder blends and a captured root. The complete arm is about 65 mm long including its root. It was the lightest of 210 screened rectangular variants meeting the chosen structural and ray-clearance criteria. A printed pivot guides deployment; the positive root lock must carry flight loads.</p></details>
+          <details><summary>What has been assessed so far?</summary><p>Native Onshape geometry checks confirm the static stowed demonstration fits the 66 mm diameter × 115 mm launch cylinder. Analytical screening estimates 0.42 mm tip movement and a reduced-strength ratio of 2.83 for an assumed 100 g opening shock plus 30 m/s flow. These are calculations, not completed FEA or physical tests. SimScale sign-in prevented a solver run; the study supplies material values, loads and restraints for reproduction. Root locks and actual printed material remain unqualified.</p></details>
+          <details><summary>What can the readings tell us?</summary><p>We will plot per-head UVA and UVB against relative altitude, retaining raw counts, settings and quality flags. Clouds, solar angle, tilt, canopy shading and saturation may influence the profile. A short flight may show no resolvable change. These readings do not automatically provide a validated UV Index or ozone concentration.</p></details>
+          <details><summary>How do four heads connect to the payload?</summary><p>The boards use unique I2C addresses 0x74–0x77 on a short protected 3.3 V body bus. Cables run behind and below each optical face with hinge service loops and strain relief. A body attitude sensor can describe the faces when all arms are locked. The new MicroPython driver and application remain to be implemented.</p></details>
+          <details><summary>Where can I see the design evidence?</summary><p>Read the <a href="https://github.com/ericxyuan/altitude-cansat/blob/main/docs/Altitude_PDR.docx">current PDR</a> and <a href="https://github.com/ericxyuan/altitude-cansat/blob/main/studies/uv_arms/UV_ARM_ENGINEERING_REPORT.md">arm engineering study</a>, open the <a href="https://cad.onshape.com/documents/76123ac2946988d574b71b35/w/4e6885d706dac03531484551/e/0391f996e69f00881814257a">Onshape model</a>, or view the <a href="https://lucid.app/lucidchart/16d928bb-fa47-4260-83cb-e005f5ee5b93/edit">system diagram</a>. The engineering documents require access to the team’s private repository. The CAD demonstrates the concept and is not a qualified flight assembly.</p></details>
         </div>
-        <figure class="copy-panel glass-panel"><img src="../assets/images/uv_sampling_arrangement.png" alt="Engineering sketch showing the UV pod packed inside the CanSat and deployed above the parachute crown" style="width:100%;height:auto"><figcaption>Preliminary UV arrangement: an exposed optical face above the canopy, with cables and mounts below it.</figcaption></figure>
+        <figure class="copy-panel glass-panel"><img src="../assets/images/uv_sampling_arrangement.png" alt="Top and side sketches of four radial body-mounted UV sensors with outward and upward optical faces" style="width:100%;height:auto"><figcaption>Four body-mounted heads; 45 mm free arms with a 12 × 12 mm section. Suspension lines sit between the arms.</figcaption></figure>
       </section>
 
       <section class="section" id="components">
@@ -114,8 +116,8 @@
         <div class="device-grid">
           <article class="device-card glass-panel" data-reveal>
             <p class="component-status">SELECTED PLATFORM</p>
-            <div class="processor-spec"><span>ESP32</span><strong>S3</strong><small>MicroPython · two physical boards</small></div>
-            <h3>ESP32-S3 controllers</h3>
+            <div class="processor-spec"><span>ESP32</span><strong>S3</strong><small>MicroPython · one proposed flight controller</small></div>
+            <h3>ESP32-S3 flight controller</h3>
             <p>The simplified UV mission proposes one flight controller for sensing, logging and telemetry. Python with MicroPython remains our development platform. The final ESP32-S3 board variant depends on packaging and power measurements.</p>
             <a class="text-link" href="https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-devkitc-1/user_guide_v1.0.html" target="_blank" rel="noopener noreferrer">Board specifications ↗</a>
           </article>
@@ -130,8 +132,8 @@
 
           <article class="device-card glass-panel" data-reveal>
             <div class="device-card__image"><img src="../assets/images/AS7331-footprint.svg" alt="Schematic of the 25.4 by 12.7 millimetre AS7331 Mini board footprint"></div>
-            <p class="component-status">SELECTED DEVELOPMENT SENSOR</p><h3>AS7331 UV sensor</h3>
-            <p>The SparkFun Mini AS7331 provides separate UV channels on a 25.4 mm by 12.7 mm board. UVA and UVB are our science channels. It uses 3.3 V power and I2C; calibration and a MicroPython driver remain to be completed. <a href="https://docs.sparkfun.com/SparkFun_Spectral_UV_Sensor_AS7331/hardware_overview/">Sensor documentation</a></p>
+            <p class="component-status">SELECTED DEVELOPMENT SENSOR</p><h3>Four AS7331 UV sensors</h3>
+            <p>Four SparkFun Mini AS7331 boards provide separate UV channels on a 25.4 mm by 12.7 mm board. UVA and UVB are our science channels. It uses 3.3 V power and I2C; calibration and a MicroPython driver remain to be completed. <a href="https://docs.sparkfun.com/SparkFun_Spectral_UV_Sensor_AS7331/hardware_overview/">Sensor documentation</a></p>
           </article>
 
           <article class="device-card glass-panel" data-reveal>
@@ -143,8 +145,8 @@
           </article>
 
           <article class="device-card glass-panel" data-reveal>
-            <div class="device-card__image"><img src="../assets/images/uv_sampling_arrangement.png" alt="Preliminary UV sensor pod and passive parachute arrangement"></div>
-            <h3>UV pod and recovery</h3><p>An ASA Aero cradle and TPU85A compliant interface position the sensor above the parachute crown. A small head-mounted attitude sensor is a candidate for recording actual optical-face tilt. The canopy, harness and pod attachment need physical qualification.</p>
+            <div class="device-card__image"><img src="../assets/images/uv_sampling_arrangement.png" alt="Four body-mounted UV sensor arms and passive parachute arrangement"></div>
+            <h3>Body-mounted UV arms</h3><p>Four ASA Aero arms carry the UV heads around the body. The proposed 45 × 12 × 12 mm beams need captured root seats and positive locks. A body IMU records attitude once the arms are locked; the mechanism and sensor optics still need qualification.</p>
           </article>
         </div>
       </section>
@@ -177,12 +179,12 @@
               <img src="../assets/images/ASA Aero.png" alt="ASA Aero filament spool">
             </div>
             <h3>ASA Aero</h3>
-            <p>ASA Aero is selected for the initial shell, internal structure and UV sensor cradle. Printed thickness, layer orientation and foaming settings will be assessed on the actual parts.</p>
+            <p>ASA Aero is selected for the initial frame, radial arms and UV sensor carriers. Printed thickness, layer orientation and foaming settings will be assessed on the actual parts.</p>
           </article>
 
           <article class="device-card glass-panel" data-reveal>
             <div class="device-card__image"><img src="../assets/images/TPU85A-material.svg" alt="TPU85A material label and flexible printed-part illustration"></div>
-            <h3>TPU85A</h3><p>TPU85A is selected for the initial impact pad, compliant sensor-pod interface and cable strain relief. These flexible parts complement the ASA Aero structure.</p>
+            <h3>TPU85A</h3><p>TPU85A is selected for the initial impact pad, sensor isolation and cable strain relief. These flexible parts complement the ASA Aero structure.</p>
           </article>
 
 
@@ -210,7 +212,7 @@
           <article class="process-card glass-panel" data-reveal>
             <span>3</span>
             <h3>Integrate</h3>
-            <p>Fit the ESP32-S3, primary sensors, UV pod, radio and storage. Keep the UV cable separate from the recovery load path and record the actual sensor configuration.</p>
+            <p>Fit the ESP32-S3, primary sensors, four UV heads, radio and storage. Keep head cables below the optics and separate from the recovery load path and record the actual sensor configuration.</p>
           </article>
           <article class="process-card glass-panel" data-reveal>
             <span>4</span>
