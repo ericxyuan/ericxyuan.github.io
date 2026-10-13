@@ -13,18 +13,13 @@ Altitude is a student-led CanSat team from Haberdashers' Boys' School in Hertfor
 
 ## The CanSat
 
-The Altitude CanSat uses Python flight software with MicroPython on the selected ESP32-S3 platform. Two physical controllers separate main guidance from the guardian that owns the servo outputs. The DevKitC-1 N8R8 is the recommended bench model (8 MB flash and 8 MB PSRAM); final flight packaging and power remain to be checked.
+The primary mission measures air temperature and pressure during descent and transmits both once every second. The secondary mission records UVA and UVB at different altitudes, using the selected SparkFun Mini AS7331 development sensor. A preliminary pod above the canopy gives the exposed optical face a clear sky view.
 
-The fabrication workflow uses the Bambu Lab X2D printer with Automatic Material System hardware. The printer is used to manufacture the CanSat structure, internal fixtures, test pieces, and CAD iteration parts. The AMS 2 Pro and two AMS HT filament dryers support the fabrication process by managing engineering filaments and keeping materials dry for consistent print quality.
+Python with MicroPython on ESP32-S3 remains the development platform. The simplified architecture proposes one main flight controller. The initial custom structure is entirely 3D printed in ASA Aero and TPU85A, with a reusable fabric parachute for passive recovery. Final packaging, wiring, calibration and flight qualification remain to be completed.
 
-Current materials include:
+The Bambu Lab X2D printer, AMS hardware and filament dryers support fabrication and material conditioning. Each material uses the appropriate drying settings and feed path.
 
-- ASA Aero filament
-- TPU 90A
-- PETG CF
-- PLA HS
-
-The primary mission records and transmits atmospheric temperature and pressure. The secondary mission investigates GPS-guided descent with rotation-aware airbrake control. Hardware has not yet been purchased; host software tests do not establish flight readiness.
+The [current PDR and UV design](https://github.com/ericxyuan/Altitude-HABS-CanSat-2026-2027/blob/main/docs/UV_MISSION.md), [Onshape demonstration model](https://cad.onshape.com/documents/76123ac2946988d574b71b35/w/4e6885d706dac03531484551/e/0391f996e69f00881814257a) and [Lucid system diagram](https://lucid.app/lucidchart/16d928bb-fa47-4260-83cb-e005f5ee5b93/edit) describe the current mission.
 
 ## Website
 

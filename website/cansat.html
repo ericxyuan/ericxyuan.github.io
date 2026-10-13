@@ -64,14 +64,14 @@
         <div class="hero__copy" data-reveal>
           <h1 class="page-title">CanSat</h1>
           <p class="eyebrow">THE PAYLOAD · DESIGN IN DEVELOPMENT</p>
-          <p class="hero__lead">Python controls the mission. An independent safety controller supervises the airbrakes. A passive parachute brings the payload home.</p>
-          <div class="hero__actions"><a class="button button--accent" href="#flight-software">Explore flight control</a><a class="button" href="#components">See the hardware</a></div>
+          <p class="hero__lead">Temperature and pressure describe the atmosphere. UVA and UVB add a radiation profile. A small sensor pod looks at the sky from above a passive parachute.</p>
+          <div class="hero__actions"><a class="button button--accent" href="#flight-software">Explore the mission</a><a class="button" href="#components">See the hardware</a></div>
         </div>
         <aside class="hero-card glass-panel" data-reveal>
           <div class="hero-card__meta">
             <div class="meta-row">
               <strong>Controller</strong>
-              <span>Two ESP32-S3 boards · selected platform</span>
+              <span>ESP32-S3 · selected controller family</span>
             </div>
             <div class="meta-row">
               <strong>Software</strong>
@@ -83,31 +83,32 @@
             </div>
             <div class="meta-row">
               <strong>Filament</strong>
-              <span>ASA Aero, TPU 90A, PETG CF, and PLA HS</span>
+              <span>ASA Aero and TPU85A</span>
             </div>
           </div>
         </aside>
       </section>
 
       <section class="section section--tight" id="flight-software" aria-labelledby="software-title">
-        <div class="section__head"><p class="eyebrow">01 / MEASURE, GUIDE, RECOVER</p><h2 id="software-title">A mission with a fallback.</h2><p>Temperature and pressure come first. Steering is an experiment that must earn its place through measured tests.</p></div>
+        <div class="section__head"><p class="eyebrow">01 / MEASURE, SAMPLE, RECOVER</p><h2 id="software-title">An atmospheric profile with UV.</h2><p>Our secondary mission now compares UVA and UVB with altitude. Temperature and pressure remain the compulsory primary measurements.</p></div>
         <div class="mission-grid">
-          <article class="mission-stage"><span class="stage-number">01</span><h3>Measure</h3><p>Record pressure, temperature, motion and position. Send the primary atmospheric measurements to the ground at least once per second.</p></article>
-          <article class="mission-stage"><span class="stage-number">02</span><h3>Guide</h3><p>Combine GPS target error with measured orientation and rotation. Adjust the four airbrakes in the rotating body frame during qualified descent.</p></article>
-          <article class="mission-stage"><span class="stage-number">03</span><h3>Recover</h3><p>A separate ESP32-S3 supervises commands and owns the servo outputs. The passive parachute provides recovery even without active guidance.</p></article>
+          <article class="mission-stage"><span class="stage-number">01</span><h3>Measure</h3><p>Measure air temperature and pressure after release and during descent. Transmit both to the ground once every second and estimate relative altitude from pressure.</p></article>
+          <article class="mission-stage"><span class="stage-number">02</span><h3>Sample UV</h3><p>The selected SparkFun Mini AS7331 separates UV channels. Save UVA and UVB with altitude, acquisition time and measurement settings to build a local radiation profile.</p></article>
+          <article class="mission-stage"><span class="stage-number">03</span><h3>Recover</h3><p>A bright reusable parachute provides passive recovery. The proposed UV pod sits above the canopy, with its active face higher than fabric, cable and mounting parts.</p></article>
         </div>
         <div class="control-notes">
-          <details><summary>How does steering work while the CanSat rotates?</summary><p>The controller transforms the direction towards the GPS target into the CanSat's current body orientation, allowing for rotation during servo delay. It then allocates panel movement using measured aerodynamic response. GPS travel direction is not used as the heading.</p></details>
-          <details><summary>What happens if an airbrake jams?</summary><p>If its physical angle is known, the opposite panel moves towards the same angle and the perpendicular pair remains available. Missing feedback, multiple failures or poor control response stop precision guidance. Working panels move to a tested safe setting; maximum deployment stays disabled until verified.</p></details>
-          <details><summary>What if the main flight program stops?</summary><p>The guardian runs on a separate board. It checks fresh commands, target consistency and expected versus measured movement. A safety trip latches guidance off. Recovery and primary data take priority over landing accuracy.</p></details>
-          <details><summary>What has been tested so far?</summary><p>The Python control core has passed 22 host test methods, including rotation, actuator faults, corrupt packets and a simulated main-task freeze. Sensor drivers, board timing, aerodynamic calibration and physical drop tests remain outstanding. The hardware has not yet been purchased.</p></details>
+          <details><summary>How will the sensor avoid parachute shading?</summary><p>The preliminary model places the UV pod above the canopy crown. Its upward optical face has no printed roof or ordinary clear-plastic cover. The pod and wiring are packed inside the CanSat before launch; the mounting and unfolding arrangement still need physical verification.</p></details>
+          <details><summary>What can the UV readings tell us?</summary><p>We will plot UVA and UVB against relative altitude, retaining raw counts and quality flags. Clouds, solar angle, pod tilt and saturation may influence the profile. A short flight may show no resolvable change; the readings do not automatically provide a validated UV Index or ozone concentration.</p></details>
+          <details><summary>How does the UV pod connect to the payload?</summary><p>A signal and power cable follows a shroud line with separate strain relief. A protected UV supply and differential cable interface are proposed. The cable carries no parachute load, and primary measurements take priority if the UV branch fails.</p></details>
+          <details><summary>Where can I see the preliminary design?</summary><p>Read the <a href="https://github.com/ericxyuan/Altitude-HABS-CanSat-2026-2027/blob/main/docs/Altitude_PDR.docx">current PDR</a>, open the <a href="https://cad.onshape.com/documents/76123ac2946988d574b71b35/w/4e6885d706dac03531484551/e/0391f996e69f00881814257a">Onshape demonstration model</a>, or view the <a href="https://lucid.app/lucidchart/16d928bb-fa47-4260-83cb-e005f5ee5b93/edit">updated system diagram</a>. The model demonstrates the UV arrangement; it is a preliminary design.</p></details>
         </div>
+        <figure class="copy-panel glass-panel"><img src="../assets/images/uv_sampling_arrangement.png" alt="Engineering sketch showing the UV pod packed inside the CanSat and deployed above the parachute crown" style="width:100%;height:auto"><figcaption>Preliminary UV arrangement: an exposed optical face above the canopy, with cables and mounts below it.</figcaption></figure>
       </section>
 
       <section class="section" id="components">
         <div class="section__head" data-reveal>
           <h2>CanSat Components</h2>
-          <p>The ESP32-S3 is our selected controller family. Other parts are candidates or prototype equipment until their integration tests are complete.</p>
+          <p>ESP32-S3 is our selected controller family and the SparkFun Mini AS7331 is our selected UV development sensor. Final wiring, calibration and flight integration are still in progress.</p>
         </div>
 
         <div class="device-grid">
@@ -115,7 +116,7 @@
             <p class="component-status">SELECTED PLATFORM</p>
             <div class="processor-spec"><span>ESP32</span><strong>S3</strong><small>MicroPython · two physical boards</small></div>
             <h3>ESP32-S3 controllers</h3>
-            <p>One board runs guidance; the other supervises it and controls the servos. The DevKitC-1 N8R8 is our recommended bench model, with 8 MB flash and 8 MB PSRAM. The flight assembly still needs fit and power checks.</p>
+            <p>The simplified UV mission proposes one flight controller for sensing, logging and telemetry. Python with MicroPython remains our development platform. The final ESP32-S3 board variant depends on packaging and power measurements.</p>
             <a class="text-link" href="https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32s3/esp32-s3-devkitc-1/user_guide_v1.0.html" target="_blank" rel="noopener noreferrer">Board specifications ↗</a>
           </article>
 
@@ -128,11 +129,9 @@
           </article>
 
           <article class="device-card glass-panel" data-reveal>
-            <div class="device-card__image">
-              <img src="../assets/images/ADXL335 Triple Axis Accelerometer.png" alt="ADXL335 Triple Axis Accelerometer">
-            </div>
-            <h3>Motion and heading</h3>
-            <p>The pictured ADXL335 is an early acceleration-sensor option. Guidance needs a heading-capable IMU and gyroscope; the BNO085 is a candidate. An accelerometer alone cannot provide the required orientation.</p>
+            <div class="device-card__image"><img src="../assets/images/AS7331-footprint.svg" alt="Schematic of the 25.4 by 12.7 millimetre AS7331 Mini board footprint"></div>
+            <p class="component-status">SELECTED DEVELOPMENT SENSOR</p><h3>AS7331 UV sensor</h3>
+            <p>The SparkFun Mini AS7331 provides separate UV channels on a 25.4 mm by 12.7 mm board. UVA and UVB are our science channels. It uses 3.3 V power and I2C; calibration and a MicroPython driver remain to be completed. <a href="https://docs.sparkfun.com/SparkFun_Spectral_UV_Sensor_AS7331/hardware_overview/">Sensor documentation</a></p>
           </article>
 
           <article class="device-card glass-panel" data-reveal>
@@ -144,11 +143,8 @@
           </article>
 
           <article class="device-card glass-panel" data-reveal>
-            <div class="device-card__image">
-              <img src="../assets/images/SG90 Servo Motor.png" alt="SG90 Servo Motor">
-            </div>
-            <h3>Airbrake actuation</h3>
-            <p>The pictured SG90 is an early prototype option; MG90S-class servos are also under consideration. Four servos need measured torque and power margins, with separate hinge feedback to detect actual panel movement.</p>
+            <div class="device-card__image"><img src="../assets/images/uv_sampling_arrangement.png" alt="Preliminary UV sensor pod and passive parachute arrangement"></div>
+            <h3>UV pod and recovery</h3><p>An ASA Aero cradle and TPU85A compliant interface position the sensor above the parachute crown. A small head-mounted attitude sensor is a candidate for recording actual optical-face tilt. The canopy, harness and pod attachment need physical qualification.</p>
           </article>
         </div>
       </section>
@@ -156,7 +152,7 @@
       <section class="section" id="fabrication">
         <div class="section__head" data-reveal>
           <h2>Fabrication and Filaments</h2>
-          <p>The printer, Automatic Material System hardware, and engineering filaments are used to prototype, test, and refine the physical CanSat structure.</p>
+          <p>The initial custom structure and fixtures will be entirely 3D printed in ASA Aero and TPU85A. A reusable fabric parachute, electronics and wiring complete the flight system.</p>
         </div>
 
         <div class="device-grid">
@@ -173,7 +169,7 @@
               <img src="../assets/images/Bambu Lab AMS HT.png" alt="Automatic Material System and AMS HT filament dryers">
             </div>
             <h3>Automatic Material System</h3>
-            <p>The AMS 2 Pro and two AMS HT dryers are part of the fabrication process. They manage multi-material printing and keep engineering filaments dry for consistent structural parts.</p>
+            <p>The AMS hardware and filament dryers support material handling and conditioning. ASA Aero and soft TPU85A will each use the appropriate drying settings and printer feed path.</p>
           </article>
 
           <article class="device-card glass-panel" data-reveal>
@@ -181,32 +177,17 @@
               <img src="../assets/images/ASA Aero.png" alt="ASA Aero filament spool">
             </div>
             <h3>ASA Aero</h3>
-            <p>ASA Aero is used for lightweight structural printing where the team wants a stronger engineering material while keeping printed parts efficient.</p>
+            <p>ASA Aero is selected for the initial shell, internal structure and UV sensor cradle. Printed thickness, layer orientation and foaming settings will be assessed on the actual parts.</p>
           </article>
 
           <article class="device-card glass-panel" data-reveal>
-            <div class="device-card__image">
-              <img src="../assets/images/TPU90A.png" alt="TPU 90A filament spool">
-            </div>
-            <h3>TPU 90A</h3>
-            <p>TPU 90A gives the team a flexible material option for shock-absorbing, compliant, or grip-like parts during mechanism and fit testing.</p>
+            <div class="device-card__image"><img src="../assets/images/TPU85A-material.svg" alt="TPU85A material label and flexible printed-part illustration"></div>
+            <h3>TPU85A</h3><p>TPU85A is selected for the initial impact pad, compliant sensor-pod interface and cable strain relief. These flexible parts complement the ASA Aero structure.</p>
           </article>
 
-          <article class="device-card glass-panel" data-reveal>
-            <div class="device-card__image">
-              <img src="../assets/images/PETG CF.png" alt="PETG CF filament spool">
-            </div>
-            <h3>PETG CF</h3>
-            <p>PETG CF is used for carbon-fibre-reinforced parts where stiffness, dimensional stability, and a clean engineering finish are useful.</p>
-          </article>
 
-          <article class="device-card glass-panel" data-reveal>
-            <div class="device-card__image">
-              <img src="../assets/images/PLA HS.png" alt="PLA HS filament spool">
-            </div>
-            <h3>PLA HS</h3>
-            <p>PLA HS is a high-speed PLA used for rapid prototyping, letting the team print early CAD iterations quickly before moving to specialist materials.</p>
-          </article>
+
+
         </div>
       </section>
 
@@ -224,12 +205,12 @@
           <article class="process-card glass-panel" data-reveal>
             <span>2</span>
             <h3>Print</h3>
-            <p>The X2D, AMS 2 Pro, and AMS HT dryers produce prototypes and final parts with controlled PLA HS, ASA Aero, TPU 90A, and PETG CF handling.</p>
+            <p>Print the initial rigid parts in ASA Aero and the cushioning, compliant interfaces and strain relief in TPU85A, using an appropriate feed path for each material.</p>
           </article>
           <article class="process-card glass-panel" data-reveal>
             <span>3</span>
             <h3>Integrate</h3>
-            <p>The ESP32-S3 boards, sensors and actuators are fitted and wired, then the Python software is tested against real measurements and injected faults.</p>
+            <p>Fit the ESP32-S3, primary sensors, UV pod, radio and storage. Keep the UV cable separate from the recovery load path and record the actual sensor configuration.</p>
           </article>
           <article class="process-card glass-panel" data-reveal>
             <span>4</span>
