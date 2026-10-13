@@ -19,13 +19,13 @@ Python with MicroPython on ESP32-S3 remains the development platform. The simpli
 
 The Bambu Lab X2D printer, AMS hardware and filament dryers support fabrication and material conditioning. Each material uses the appropriate drying settings and feed path.
 
-The [current PDR and UV design](https://github.com/ericxyuan/Altitude-HABS-CanSat-2026-2027/blob/main/docs/UV_MISSION.md), [Onshape demonstration model](https://cad.onshape.com/documents/76123ac2946988d574b71b35/w/4e6885d706dac03531484551/e/0391f996e69f00881814257a) and [Lucid system diagram](https://lucid.app/lucidchart/16d928bb-fa47-4260-83cb-e005f5ee5b93/edit) describe the current mission.
+The [current PDR and UV design](https://github.com/ericxyuan/altitude-cansat/blob/main/docs/UV_MISSION.md), [Onshape demonstration model](https://cad.onshape.com/documents/76123ac2946988d574b71b35/w/4e6885d706dac03531484551/e/0391f996e69f00881814257a) and [Lucid system diagram](https://lucid.app/lucidchart/16d928bb-fa47-4260-83cb-e005f5ee5b93/edit) describe the current mission.
 
 ## Website
 
 The site is a static HTML, CSS, and JavaScript website in the `website/` folder, with shared assets in `assets/`. Root-level HTML files redirect into the website folder so the pages work cleanly on GitHub Pages.
 
-The main engineering repository for flight code, CAD, telemetry work, build notes, and test data is [ericxyuan/Altitude-HABS-CanSat-2026-2027](https://github.com/ericxyuan/Altitude-HABS-CanSat-2026-2027).
+The main engineering repository for flight code, CAD, telemetry work, build notes, and test data is [ericxyuan/altitude-cansat](https://github.com/ericxyuan/altitude-cansat).
 
 Pages included:
 
