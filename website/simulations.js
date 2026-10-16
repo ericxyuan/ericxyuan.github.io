@@ -97,6 +97,8 @@ document.querySelectorAll('[data-preset]').forEach((button) => button.addEventLi
 }));
 $('reset-simulation').addEventListener('click', () => {
   Object.assign(state, DEFAULTS); hiddenTargets.clear(); inspectionTime = null;
+  $('yaw-tooltip').hidden = true; $('detail-tooltip').hidden = true;
+  $('inspect-time').value = '0'; $('inspect-time-label').textContent = '0.00 s';
   syncInputs(); document.querySelectorAll('[data-preset]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.preset === 'standard'))); requestRender();
 });
 
@@ -255,7 +257,10 @@ function makeLegend() {
     if (String(trajectory.targetDeg) === oldFocus) button.focus();
   });
 }
-function requestRender() { if (!renderPending) { renderPending = true; requestAnimationFrame(render); } }
+function requestRender() {
+  clearTimeout(announceTimer);
+  if (!renderPending) { renderPending = true; requestAnimationFrame(render); }
+}
 function render() {
   renderPending = false;
   const validation = validateParams(state);
