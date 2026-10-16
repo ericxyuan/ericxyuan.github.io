@@ -1,0 +1,26 @@
+name: Simulation validation
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  physics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check browser JavaScript
+        run: |
+          node --check website/simulation-physics.js
+          node --check website/simulations.js
+          node --check website/app.js
+      - name: Validate physics and Python agreement
+        run: node --test tests/simulation-physics.test.mjs
+      - name: Validate Python reference
+        run: python tests/simulation_reference.py

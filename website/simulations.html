@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Altitude | Simulations</title>
+  <meta name="description" content="Explore reaction-wheel yaw dynamics, motor torque, wheel inertia and achievable CanSat manoeuvres with Altitude's interactive engineering simulator.">
+  <link rel="canonical" href="https://altitude.linkpc.net/website/simulations.html">
+  <link rel="stylesheet" href="styles.css?v=20260921">
+  <link rel="stylesheet" href="refinements.css?v=20261016">
+  <link rel="stylesheet" href="simulations.css?v=20261016">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html" aria-label="Altitude home">
+        <img src="../assets/images/Team Altitude Logo.png" alt="Team Altitude logo">
+        <span>Altitude<small>Haberdashers' Boys' School</small></span>
+      </a>
+      <div class="header-actions"><nav class="nav" aria-label="Primary navigation">
+        <span class="nav-indicator" aria-hidden="true"></span>
+        <a href="index.html">Home</a><a href="team.html">Team</a><a href="cansat.html">CanSat</a>
+        <a href="simulations.html">Simulations</a>
+        <a href="about-altitude.html" aria-label="About Altitude">About</a>
+        <a href="about-cansat.html" aria-label="About CanSat">Competition</a>
+      </nav></div>
+    </div>
+  </header>
+  <main class="site-main simulator" id="main-content">
+    <section class="sim-intro">
+      <p class="eyebrow">ALTITUDE ENGINEERING LAB</p>
+      <h1>Simulations</h1>
+      <p class="sim-lead">Explore how a small wheel changes the way a CanSat turns.</p>
+      <div class="sim-title-row"><h2>Reaction-wheel attitude control</h2><span class="sim-model-label">Single-axis yaw · open-loop model</span></div>
+      <p class="sim-description">Set a rotation and a time. Compare the requested manoeuvre with what your motor and flywheel can actually achieve.</p>
+      <div class="sim-presets" aria-label="Simulation presets">
+        <button type="button" data-preset="standard" aria-pressed="true">Standard</button>
+        <button type="button" data-preset="fast" aria-pressed="false">Fast manoeuvre</button>
+        <button type="button" data-preset="large" aria-pressed="false">Large rotation</button>
+        <button type="button" data-preset="light" aria-pressed="false">Low-inertia rotor</button>
+        <button type="button" id="reset-simulation" class="sim-reset">Reset to defaults</button>
+      </div>
+    </section>
+    <section aria-label="Simulation parameters" class="sim-input-section">
+      <div id="primary-controls" class="sim-controls"></div>
+      <div class="mass-allocation" aria-label="Mass allocation">
+        <div class="mass-allocation__labels"><span><i></i>Flywheel <strong id="wheel-mass-label">40 g</strong></span><span>Remaining CanSat <strong id="body-mass-label">300 g</strong></span></div>
+        <div class="mass-allocation__bar" aria-hidden="true"><span id="wheel-mass-bar"></span></div>
+        <p>Remaining mass includes everything else; this is not a verified system budget.</p>
+      </div>
+      <details class="sim-advanced">
+        <summary>Advanced settings <span>Geometry, speed and disturbance limits</span></summary>
+        <div id="advanced-controls" class="sim-controls"></div>
+        <label class="sim-checkbox"><input type="checkbox" id="enable-torque-curve"> Apply a linear motor torque–speed envelope</label>
+        <div id="torque-curve-controls" hidden></div>
+        <p class="sim-help">The default motor limit is available output torque at the operating point. With the optional envelope enabled, it becomes the zero-speed torque intercept and falls linearly to zero at the specified no-load speed. This is an assumed motor curve, not a measured rating.</p>
+      </details>
+    </section>
+    <p id="simulation-error" class="sim-error" role="alert" hidden></p>
+    <section id="simulation-results" class="sim-results" aria-label="Engineering results">
+      <div><p>Peak wheel speed <small>ideal required · relative to body</small></p><output id="result-rpm">—</output><span>RPM</span></div>
+      <div><p>Required motor torque <small>ideal manoeuvre</small></p><output id="result-torque">—</output><span>mN·m</span></div>
+      <div><p>Peak body angular velocity <small>actual simulated</small></p><output id="result-rate">—</output><span>°/s</span></div>
+      <div><p>Minimum feasible duration <small>undisturbed rest-to-rest profile</small></p><output id="result-duration">—</output><span>s</span></div>
+    </section>
+    <div class="sim-secondary-results" id="secondary-results"></div>
+    <section class="sim-plots" aria-label="Manoeuvre trajectories">
+      <div class="sim-chart-heading"><h2>Yaw response</h2><span>Solid: actual motion · dashed: selected request when limited</span></div>
+      <div id="trajectory-legend" class="sim-legend" aria-label="Toggle target trajectories"></div>
+      <div class="sim-chart-wrap"><canvas id="yaw-chart" role="img" aria-label="Yaw angle versus time for the selected target and seven comparison manoeuvres">Interactive yaw angle graph. The final selected angle is also available in the results below.</canvas><div class="sim-chart-tooltip" id="yaw-tooltip" hidden></div></div>
+      <div class="sim-chart-heading sim-chart-heading--secondary">
+        <h2 id="detail-chart-title">Angular acceleration</h2>
+        <label for="graph-mode" class="sr-only">Detailed graph quantity</label>
+        <select id="graph-mode"><option value="accelDegS2">Angular acceleration</option><option value="rateDegS">Angular velocity</option><option value="wheelRpm">Flywheel RPM</option><option value="torqueNm">Motor torque</option><option value="yawDeg">Yaw angle</option></select>
+      </div>
+      <p id="detail-chart-note" class="sim-help">Positive acceleration in the first half; braking in the second. Dashed boundaries show the motor torque limit.</p>
+      <div class="sim-chart-wrap"><canvas id="detail-chart" role="img" aria-label="Angular acceleration versus time with positive and negative motor torque limits">Interactive detailed trajectory graph.</canvas><div class="sim-chart-tooltip" id="detail-tooltip" hidden></div></div>
+      <div class="sim-time-control"><label for="inspect-time">Inspect time <output id="inspect-time-label">0.00 s</output></label><input id="inspect-time" type="range" min="0" max="1" step="0.001" value="0"><span>Hover, tap, or use the time slider to compare every visible trajectory.</span></div>
+      <p id="chart-accessible-summary" class="sim-chart-summary" aria-live="polite"></p>
+    </section>
+    <section class="sim-feedback" aria-label="Engineering feedback" aria-live="polite" aria-atomic="true">
+      <p><span id="feedback-dot" aria-hidden="true"></span><strong id="feedback-primary">Calculating…</strong></p><p id="feedback-secondary"></p>
+    </section>
+    <section class="sim-technical">
+      <p>This model estimates idealised single-axis yaw response. Actual descent performance depends on parachute dynamics, external torques, motor characteristics, sensor feedback and actuator saturation.</p>
+      <details><summary>Model assumptions and equations</summary>
+        <p>The total mass includes the rotor. Body inertia is I<sub>b</sub> = (M − m<sub>w</sub>)k<sub>b</sub>², and wheel inertia is I<sub>w</sub> = f m<sub>w</sub>r<sub>w</sub>². A thin rim uses f = 1; a uniform disc uses f = 0.5. Increasing radius changes inertia with its square, but geometry, balance and containment still need verification.</p>
+        <p>The ideal request uses two equal, opposite torque phases, with required torque 4I<sub>b</sub>θ/T². Positive body yaw uses negative motor torque in the first half. Wheel speed is relative to the body; its inertial speed also includes body rotation. With no external torque, (I<sub>b</sub> + I<sub>w</sub>)ω<sub>b</sub> + I<sub>w</sub>ω<sub>w,rel</sub> stays zero.</p>
+        <p>Operating limits constrain the actual response. Constant disturbance torque acts in the positive yaw direction when positive, continues after the command ends, and can leave residual rotation. The controller is an open-loop torque schedule; it does not correct attitude errors using feedback. The minimum duration describes an undisturbed rest-to-rest manoeuvre under the configured actuator model.</p>
+        <p>The body radius of gyration is a lumped estimate, not a CAD-derived inertia tensor. The model omits pitch, roll, suspension restoring moments, wheel-axis offset, bearing friction and structural flexibility. Wheel RPM alone cannot determine performance, and a motor's maximum RPM does not establish its torque capability. The RPM setting is an analysis limit and does not certify rotor safety.</p>
+        <p><a class="text-link" href="../docs/SIMULATION_MODEL.md">Read the model and validation notes</a> · <a class="text-link" href="../tests/simulation_reference.py" download>Python reference calculations</a></p>
+      </details>
+    </section>
+    <noscript><p>This simulator needs JavaScript to calculate and display trajectories. You can still read the model assumptions above or download the Python reference.</p></noscript>
+  </main>
+  <footer class="footer"><span>Altitude CanSat Team</span><span>2026/2027 Season</span><span><a href="https://github.com/ericxyuan/altitude-cansat" target="_blank" rel="noopener noreferrer">Engineering repo</a></span></footer>
+  <script src="app.js?v=20261016"></script>
+  <script src="vendor/chart.umd.min.js"></script>
+  <script type="module" src="simulations.js?v=20261016"></script>
+</body>
+</html>

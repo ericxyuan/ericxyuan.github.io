@@ -35,6 +35,19 @@ Pages included:
 - About Altitude
 - About CanSat
 
+## Interactive yaw simulator
+
+The [Simulations page](website/simulations.html) adds a client-side reaction-wheel yaw model with live hardware inputs, multiple comparison trajectories, torque/speed limits and an independent Python reference. It preserves the existing website and uses self-hosted Chart.js 4.5.1 under its MIT licence. Read the [model assumptions and numerical validation](docs/SIMULATION_MODEL.md) before interpreting the predictions as hardware performance.
+
+From this website repository root, run the standalone checks:
+
+```sh
+node --test tests/simulation-physics.test.mjs
+python tests/simulation_reference.py
+```
+
+The Node suite uses Python 3 for cross-validation; set `PYTHON` if its executable has a different name. These checks require no package installation. This static site has no configured lint, typecheck or build command. Numerical tests do not establish physical or flight readiness.
+
 ## GitHub Pages, A Records, And HTTPS
 
 The Pages repository is [ericxyuan/ericxyuan.github.io](https://github.com/ericxyuan/ericxyuan.github.io), matching the current GitHub username. The default Pages address is `https://ericxyuan.github.io/`; the public custom domain below remains the main website address.

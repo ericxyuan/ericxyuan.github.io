@@ -145,3 +145,13 @@ h1, h2, h3, p, .meta-row strong, .meta-row span { overflow-wrap: anywhere; }
   .nav a[aria-current] { outline: 2px solid Highlight; }
   .nav-indicator { display: none; }
 }
+/* Six dedicated pages share the existing navigation geometry. */
+.nav { grid-template-columns: repeat(6, minmax(70px, 1fr)); }
+@media (max-width: 720px) { .nav { grid-template-columns: repeat(6, minmax(0, 1fr)); } .nav a { font-size: .6rem; } }
+@media (max-width: 390px) { .nav { border-radius: 16px; } .nav a { font-size: .56rem; padding-inline: 1px; } }
+@media (max-width: 600px) {
+  .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: 16px; }
+  .nav a { font-size: .7rem; overflow-wrap: normal; }
+  .nav-indicator { display: none; }
+  .nav a[aria-current="page"] { background: var(--accent); border-radius: 10px; }
+}
